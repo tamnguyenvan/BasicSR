@@ -4,7 +4,7 @@ import os
 import torch
 from torchvision import utils
 
-from basicsr.archs.stylegan2_arch import StyleGAN2Generator
+from basicsr.archs.stylegan2_bilinear_arch import StyleGAN2GeneratorBilinear
 from basicsr.utils import set_random_seed
 
 
@@ -34,9 +34,9 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--size', type=int, default=1024)
+    parser.add_argument('--size', type=int, default=256)
     parser.add_argument('--sample', type=int, default=1)
-    parser.add_argument('--pics', type=int, default=1)
+    parser.add_argument('--pics', type=int, default=10)
     parser.add_argument('--truncation', type=float, default=1)
     parser.add_argument('--truncation_mean', type=int, default=4096)
     parser.add_argument(
@@ -55,8 +55,8 @@ if __name__ == '__main__':
     os.makedirs('samples', exist_ok=True)
     set_random_seed(2020)
 
-    g_ema = StyleGAN2Generator(
-        args.size, args.latent, args.n_mlp, channel_multiplier=args.channel_multiplier).to(device)
+    g_ema = StyleGAN2GeneratorBilinear(
+        args.size, args.latent, args.n_mlp, channel_multiplier=args.channel_multiplier, narrow=0.5).to(device)
     checkpoint = torch.load(args.ckpt)['params_ema']
 
     g_ema.load_state_dict(checkpoint)
