@@ -1,3 +1,4 @@
+import os
 import random
 import time
 from os import path as osp
@@ -42,7 +43,8 @@ class FFHQDataset(data.Dataset):
                 self.paths = [line.split('.')[0] for line in fin]
         else:
             # FFHQ has 70000 images in total
-            self.paths = [osp.join(self.gt_folder, f'{v:08d}.png') for v in range(70000)]
+            # self.paths = [osp.join(self.gt_folder, f'{v:08d}.png') for v in range(70000)]
+            self.paths = [osp.join(self.gt_folder, p) for p in os.listdir(self.gt_folder)]
 
     def __getitem__(self, index):
         if self.file_client is None:
