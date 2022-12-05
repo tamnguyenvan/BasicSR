@@ -315,6 +315,15 @@ class StyleGAN2GeneratorBilinear(nn.Module):
             '512': int(32 * channel_multiplier * narrow),
             '1024': int(16 * channel_multiplier * narrow)
         }
+        channels = {
+            "4": int(512 * narrow),
+            "8": int(512 * narrow),
+            "16": int(512 * narrow),
+            "32": int(256 * channel_multiplier * narrow),
+            "64": int(128 * channel_multiplier * narrow),
+            "128": int(64 * channel_multiplier * narrow),
+            "256": int(32 * channel_multiplier * narrow),
+        }
         self.channels = channels
 
         self.constant_input = ConstantInput(channels['4'], size=4)
